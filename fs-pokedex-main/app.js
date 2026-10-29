@@ -1,15 +1,16 @@
 const express = require('express')
-const path = require('path')
-
 const app = express()
 
+// get the port from env variable
+const PORT = process.env.PORT || 5001
+
 app.use(express.static('dist'))
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
+app.get('/health', (req, res) => {
+  res.status(200).send('ok')
 })
+const start = async () => {
+  await app.listen(PORT)
+  console.log(`server started on port ${PORT}`)
+}
 
-const PORT = process.env.PORT || 8080
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+start()
